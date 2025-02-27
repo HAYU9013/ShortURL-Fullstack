@@ -1,0 +1,1 @@
+{"version":"3.0.4","results":[[":backend/src/controllers/calculatorController.test.js",{"duration":4.563199999999995,"failed":false}],[":backend/src/routes/postRoutes.test.js",{"duration":0,"failed":true}]]}

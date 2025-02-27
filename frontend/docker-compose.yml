@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  vue-app:
+    build: .
+    ports:
+      - "5173:5173"  # 如 vite 使用其他 port，請同步調整
+    volumes:
+      - .:/app           # 掛載專案檔案 (開發時可即時更新)
+      - /app/node_modules  # 避免覆寫容器內的 node_modules
+    command: npm run dev  # 覆寫 Dockerfile 中的 CMD (如果需要的話)
