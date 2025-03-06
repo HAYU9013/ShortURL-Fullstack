@@ -1,0 +1,31 @@
+name: Docker Build and Test
+
+on:
+  push: {}  # 每次 commit 都會觸發
+  # schedule:
+  #   - cron: '0 */4 * * *'  # 每四小時觸發一次
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy backend with docker-compose
+        working-directory: backend
+        run: |
+          docker-compose up -d
+
+      - name: Build frontend image
+        working-directory: frontend
+        run: |
+          docker build -t frontend --build-arg NAME=frontend .
+
+      - name: Run frontend container
+        run: |
+          docker run -d -p 5173:5173 --name URL_FE frontend
+
+      - name: Display access URL message
+        run: |
+          echo "access url shorten service at http://localhost:5173"
