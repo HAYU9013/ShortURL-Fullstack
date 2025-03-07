@@ -34,3 +34,10 @@ jobs:
       - name: Display access URL message
         run: |
           echo "access url shorten service at http://localhost:5173"
+
+      - name: Test frontend
+        working-directory: testing/selenium_test
+        run: |
+          pip install selenium
+          python main.py
+
