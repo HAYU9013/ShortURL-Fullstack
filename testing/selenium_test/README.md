@@ -5,8 +5,15 @@
 3. 每個測試開一個檔案
 4. 寫一個 function，成功回傳 true，失敗回傳 false
 5. 去 main.py 裡面加上指令執行你的測試
-5. 修網頁的 Bug ，也寫過程到[文件](https://docs.google.com/document/d/1BQbdZ0Hl2nKw4Se_ETXLVtGOhzc81aNe50NYg_2iZWU/edit?tab=t.e85j6ai4jkxd)中
-6. 確認 github action 你的測試跑成功就 OK
+6. 確認 github action 你的測試跑成功
+7. 發 pull request 並回去 main branch
+
+# 修 Bug
+1. 發 issue 詳細敘述
+1. 要修的人開個 branch
+1. 自己或找人修網頁的 Bug ，也寫過程到該 issue
+2. 發 pull request 合併回去 main branch
+1. 關閉 issue
 
 P.S. 本機測試的時候用 ubuntu 可能跑不起來，我是用 miniconda 在 Windows 跑，如果需要在 ubuntu 跑再說
 
