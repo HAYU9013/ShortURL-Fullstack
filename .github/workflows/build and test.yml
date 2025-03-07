@@ -35,12 +35,22 @@ jobs:
         run: |
           echo "access url shorten service at http://localhost:5173"
 
-      - name: Install ChromeDriver
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
         run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-          wget -N https://chromedriver.storage.googleapis.com/$CHROME_VERSION/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip -d /usr/local/bin/
-          rm chromedriver_linux64.zip
+          pip install selenium
+          # 如有使用 webdriver-manager 可額外安裝：
+          # pip install webdriver-manager
+
+      - name: Install Google Chrome and ChromeDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          sudo apt-get install -y chromedriver
 
       - name: Test frontend
         working-directory: testing/selenium_test
