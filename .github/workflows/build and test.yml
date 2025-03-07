@@ -35,6 +35,13 @@ jobs:
         run: |
           echo "access url shorten service at http://localhost:5173"
 
+      - name: Install ChromeDriver
+        run: |
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          wget -N https://chromedriver.storage.googleapis.com/$CHROME_VERSION/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip -d /usr/local/bin/
+          rm chromedriver_linux64.zip
+
       - name: Test frontend
         working-directory: testing/selenium_test
         run: |
