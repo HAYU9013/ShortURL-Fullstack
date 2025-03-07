@@ -32,14 +32,25 @@ def setup_driver():
 
 def run_test(driver):
     success = True
-    
-    ###############複製我 複製我 複製我去寫##############
-    result = test_title.test_title_exists(driver)
-    print("test_h1_exists passed" if result else "test_h1_exists failed")
-    success = success and result
-    ###################################################
 
-    driver.quit()
+    try:
+        ###############複製我 複製我 複製我去寫##############
+        result = test_title.test_title_exists(driver)
+        print("test_h1_exists passed" if result else "test_h1_exists failed")
+        success = success and result
+        ###################################################
+
+        ###############其他 testcase 寫在下面###############
+
+
+
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        success = False
+    finally:
+        driver.quit()
+    
     return success
 
 if __name__ == "__main__":
