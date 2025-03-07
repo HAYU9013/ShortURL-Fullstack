@@ -50,7 +50,21 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-          sudo apt-get install -y chromedriver
+      
+
+      - name: Download ChromeDriver
+        run: |
+          # 取得 Google Chrome 版本
+          CHROME_VERSION=$(google-chrome --version | grep -oE '[0-9.]+' | head -1)
+          # 擷取主要版本號
+          CHROME_MAJOR=$(echo $CHROME_VERSION | cut -d'.' -f1)
+          # 根據主要版本號取得最新對應的 ChromeDriver 版本
+          CHROMEDRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR")
+          echo "ChromeDriver Version: ${CHROMEDRIVER_VERSION}"
+          wget -N https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
 
       - name: Test frontend
         working-directory: testing/selenium_test
