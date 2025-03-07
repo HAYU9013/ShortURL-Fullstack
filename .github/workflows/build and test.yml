@@ -44,7 +44,7 @@ jobs:
         run: |
           pip install selenium
           # 如有使用 webdriver-manager 可額外安裝：
-          # pip install webdriver-manager
+          pip install webdriver-manager
 
       - name: Install Google Chrome and ChromeDriver
         run: |
