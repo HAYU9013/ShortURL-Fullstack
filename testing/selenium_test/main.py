@@ -1,9 +1,12 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import test_title
 
 def setup_driver():
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument("--user-data-dir=/tmp/unique_user_data_dir")
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://localhost:5173/")
     return driver
 
