@@ -35,16 +35,10 @@ def run_test(driver):
     success = True
 
     try:
-        ###############複製我 複製我 複製我去寫##############
-        result = test_title.test_title_exists(driver)
-        print("test_h1_exists passed" if result else "test_h1_exists failed")
-        success = success and result
-        ###################################################
-
         ###############其他 testcase 寫在下面###############
         register_result = test_register.test_register_exists(driver)
         print("test_register_exists passed" if register_result else "test_register_exists failed")
-        register_success = register_success and register_result
+        success = success and register_result
 
 
 
