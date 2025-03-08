@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import test_title
+import test_register
 
 def setup_driver():
     chrome_options = Options()
@@ -41,7 +42,9 @@ def run_test(driver):
         ###################################################
 
         ###############其他 testcase 寫在下面###############
-
+        register_result = test_register.test_register_exists(driver)
+        print("test_register_exists passed" if register_result else "test_register_exists failed")
+        register_success = register_success and register_result
 
 
 
