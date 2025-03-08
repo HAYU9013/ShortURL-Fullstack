@@ -10,8 +10,6 @@ def test_login_exists(driver):
         return True
     except AssertionError:
         return False
-    finally:
-        driver.quit()
 
 def test_login_success(driver):
     try:
@@ -36,5 +34,3 @@ def test_login_success(driver):
     
     except AssertionError:
         return False
-    finally:
-        driver.quit()

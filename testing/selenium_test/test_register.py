@@ -10,8 +10,6 @@ def test_register_exists(driver):
         return True
     except AssertionError:
         return False
-    finally:
-        driver.quit()
 
 def test_register_success(driver):
     try:
@@ -36,7 +34,6 @@ def test_register_success(driver):
 
         button_elemnt.click()
         return True
+    
     except AssertionError:
         return False
-    finally:
-        driver.quit()
