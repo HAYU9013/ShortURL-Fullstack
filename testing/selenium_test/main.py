@@ -7,6 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import test_title
 import test_register
 import test_login
+import test_register_success
 
 def setup_driver():
     chrome_options = Options()
@@ -37,9 +38,9 @@ def run_test(driver):
 
     try:
         ###############其他 testcase 寫在下面###############
-        login_result = test_login.test_login_exists(driver)
-        print("test_login_exists passed" if login_result else "test_login_exists failed")
-        success = success and login_result
+        register_success_result = test_register_success.test_register_success(driver)
+        print("test_register_success passed" if register_success_result else "test_register_success failed")
+        success = success and register_success_result
 
 
 
