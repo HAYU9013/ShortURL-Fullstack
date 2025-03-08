@@ -7,5 +7,4 @@ def test_title_exists(driver):
         return True
     except AssertionError:
         return False
-    finally:
-        driver.quit()
+
