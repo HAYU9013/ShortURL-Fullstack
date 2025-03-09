@@ -43,7 +43,13 @@ def run_test(driver):
         print("test_h1_exists passed" if result else "test_h1_exists failed")
         success = success and result
         ###################################################
-        
+
+        ###############複製我 複製我 複製我去寫##############
+        result = test_title.test_title_exists(driver)
+        print("test_h1_exists2 passed" if result else "test_h1_exists failed")
+        success = success and result
+        ###################################################
+
         ###############其他 testcase 寫在下面###############
         
         login_result = test_login.test_login_exists(driver)
