@@ -9,6 +9,7 @@ import test_title
 import test_register
 import test_login
 import test_logout
+import test_DuplicateAccount,test_ShortUrl, test_UrlStorage,test_UrlStorageDelete
 
 def setup_driver():
     chrome_options = Options()
@@ -16,7 +17,7 @@ def setup_driver():
 
     if system_name == "Windows":
         # Windows 環境：設定 Windows 專用的參數
-        chrome_options.add_argument("--user-data-dir=C:\\temp\\unique_user_data_dir")
+        #chrome_options.add_argument("--user-data-dir=C:\\temp\\unique_user_data_dir")
         
         service = Service()  
         driver = webdriver.Chrome(service=service, options=chrome_options)
@@ -71,6 +72,26 @@ def run_test(driver):
         logout_success_result = test_logout.test_logout_success(driver)
         print("test_logout_success passed" if logout_success_result else "test_logout_success failed")
         success = success and logout_success_result
+        #####
+        
+        
+        result  = test_ShortUrl.test_shortUrl(driver, "https://www.google.com/")
+        print("test_ShoutUrl passed" if result else "test_ShortUrl failed")
+        success = success and result
+
+        result  = test_DuplicateAccount.test_register_Duplicate(driver)
+        print("test_DuplicateAccount passed" if result else "test_DuplicateAccount failed")
+        success = success and result
+
+
+        result = test_UrlStorage.test_url_storage(driver,test_DuplicateAccount.accountList[0],test_DuplicateAccount.accountList[1],testWebsite= "https://www.google.com/")
+        print("test_UrlStorage passed" if result else "test_UrlStorage failed")
+        success = success and result
+
+        result = test_UrlStorageDelete.test_url_storage_delete(driver,test_DuplicateAccount.accountList[0],test_DuplicateAccount.accountList[1])
+        print("test_UrlStorageDelete passed" if result else "test_UrlStorageDelete failed")
+        success = success and result
+        
 
     except Exception as e:
         print(f"An error occurred: {e}")
