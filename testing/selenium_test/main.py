@@ -9,7 +9,7 @@ import test_title
 import test_register
 import test_login
 import test_logout
-import test_DuplicateAccount,test_ShortUrl, test_UrlStorage,test_UrlStorageDelete
+import test_DuplicateAccount,test_ShortUrl, test_UrlStorage,test_UrlStorageDelete,test_StorageUrl
 
 def setup_driver():
     chrome_options = Options()
@@ -18,7 +18,7 @@ def setup_driver():
     if system_name == "Windows":
         # Windows 環境：設定 Windows 專用的參數
         #chrome_options.add_argument("--user-data-dir=C:\\temp\\unique_user_data_dir")
-        
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
         service = Service()  
         driver = webdriver.Chrome(service=service, options=chrome_options)
     elif system_name == "Linux":
@@ -88,6 +88,10 @@ def run_test(driver):
         print("test_UrlStorage passed" if result else "test_UrlStorage failed")
         success = success and result
 
+        result = test_StorageUrl.test_storageUrl(driver,test_DuplicateAccount.accountList[0],test_DuplicateAccount.accountList[1],testWebsite= "https://www.google.com/")
+        print("test_StorageUrl passed" if result else "test_StorageUrl failed")
+        success = success and result
+        
         result = test_UrlStorageDelete.test_url_storage_delete(driver,test_DuplicateAccount.accountList[0],test_DuplicateAccount.accountList[1])
         print("test_UrlStorageDelete passed" if result else "test_UrlStorageDelete failed")
         success = success and result
