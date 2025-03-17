@@ -66,6 +66,8 @@ def test_register_success(driver):
             pass
 
         # 驗證註冊成功的警告訊息
+        time.sleep(2)
+
         wait = WebDriverWait(driver, timeout=2)
         alert = wait.until(EC.alert_is_present())
         text = alert.text
