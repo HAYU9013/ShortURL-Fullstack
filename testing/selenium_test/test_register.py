@@ -59,13 +59,14 @@ def test_register_success(driver):
                 input_password_element.send_keys("abc123456")
                 input_confirmPw_element.clear()
                 input_confirmPw_element.send_keys("abc123456")
-                button_element.click()
 
         except TimeoutException:
             # 沒有註冊錯誤訊息，代表註冊成功
             pass
 
         # 驗證註冊成功的警告訊息
+        
+        button_element.click()
         time.sleep(2)
 
         wait = WebDriverWait(driver, timeout=2)
