@@ -41,18 +41,26 @@ def test_register_success(driver):
         input_confirmPw_element.send_keys("abc123456")
         button_element.click()
 
-        time.sleep(2)
+        time.sleep(1)
 
         try:
-            # 等待註冊錯誤訊息的出現
+            # 檢查是否有成功註冊的 alert 彈出
+            wait = WebDriverWait(driver, timeout=2)
+            alert = wait.until(EC.alert_is_present())
+            text = alert.text
+            alert.accept()
+            assert text == "註冊成功，請登入"
+            return True
+        except TimeoutException:
+            pass
+
+        # 嘗試找尋註冊錯誤訊息
+        try:
             register_error = WebDriverWait(driver, timeout=2).until(
                 EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/div'))
             )
-
-            # 若有錯誤訊息，隨機產生帳號再嘗試
             if register_error.text == "註冊時發生錯誤":
                 random_id = random.randint(1, 1000000)
-
                 input_username_element.clear()
                 input_username_element.send_keys(f"Tester{random_id}")
                 input_password_element.clear()
@@ -61,21 +69,15 @@ def test_register_success(driver):
                 input_confirmPw_element.send_keys("abc123456")
                 button_element.click()
 
+                # 再次等待成功 alert
+                alert = wait.until(EC.alert_is_present())
+                text = alert.text
+                alert.accept()
+                assert text == "註冊成功，請登入"
+                return True
+
         except TimeoutException:
-            # 沒有註冊錯誤訊息，代表註冊成功
-            pass
-
-        # 驗證註冊成功的警告訊息
-
-        time.sleep(2)
-        
-        wait = WebDriverWait(driver, timeout=2)
-        alert = wait.until(lambda d : d.switch_to.alert)
-        text = alert.text
-        alert.accept()
-        assert text == "註冊成功，請登入"
-
-        return True
+            return False
 
     except AssertionError:
         return False
