@@ -11,6 +11,8 @@ import test_login
 import test_logout
 import test_DuplicateAccount,test_ShortUrl, test_UrlStorage,test_UrlStorageDelete,test_StorageUrl
 import test_ShortUrl_Neg, test_register_Neg, test_login_Neg
+import test_welcome_message, test_password_valid1, test_password_valid2, test_password_valid3, test_spacebar_username
+
 
 def setup_driver():
     chrome_options = Options()
@@ -53,6 +55,28 @@ def run_test(driver):
         ###################################################
 
         ###############其他 testcase 寫在下面###############
+
+        result = test_welcome_message.test_welcome_message(driver)
+        print("test_welocome_message passed" if result else "test_welocome_message failed")
+        success = success and result
+
+        result = test_password_valid1.test_password_valid1(driver)
+        print("test_password_valid1 passed" if result else "test_password_valid1 failed")
+        success = success and result
+
+        result = test_password_valid2.test_password_valid2(driver)
+        print("test_password_valid2 passed" if result else "test_password_valid2 failed")
+        success = success and result
+
+        result = test_password_valid3.test_password_valid3(driver)
+        print("test_password_valid3 passed" if result else "test_password_valid3 failed")
+        success = success and result
+
+        result = test_spacebar_username.test_spacebar_username(driver)
+        print("test_spacebar_username passed" if result else "test_spacebar_username failed")
+        success = success and result
+
+        #####
         
         login_result = test_login.test_login_exists(driver)
         print("test_login_exists passed" if login_result else "test_login_exists failed")
