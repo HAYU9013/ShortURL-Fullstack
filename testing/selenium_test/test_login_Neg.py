@@ -36,6 +36,10 @@ def test_login_with_wrong_password(driver):
 
         button_element = driver.find_element(By.TAG_NAME, "button")
         button_element.click()
+
+        time.sleep(2)
+        wait = WebDriverWait(driver, timeout=2)
+        
         error_message_element = driver.find_element(By.XPATH, "//div[contains(text(), '登入時發生錯誤')]")
         error_message = error_message_element.text
         assert error_message == "登入時發生錯誤"
