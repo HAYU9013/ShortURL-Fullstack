@@ -16,7 +16,7 @@ def test_shortUrl_Neg(driver):
             wait = WebDriverWait(driver, timeout=2)
             error_message = inputField.get_attribute("validationMessage")
             print(error_message)
-            assert error_message == "請輸入網址。" or error_message == "請填寫這個欄位。" or error_message == "Please enter a URL."
+            assert error_message == "請輸入網址。" or error_message == "請填寫這個欄位。" or error_message == "Please enter a URL." or error_message == "Please fill out this field."
             inputField.clear()
             
         
