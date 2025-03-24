@@ -10,6 +10,7 @@ import test_register
 import test_login
 import test_logout
 import test_DuplicateAccount,test_ShortUrl, test_UrlStorage,test_UrlStorageDelete,test_StorageUrl
+import test_ShortUrl_Neg, test_register_Neg, test_login_Neg
 
 def setup_driver():
     chrome_options = Options()
@@ -61,10 +62,30 @@ def run_test(driver):
         print("test_register_exists passed" if register_result else "test_register_exists failed")
         success = success and register_result
 
+        register_result = test_register_Neg.test_register_fail_with_empty_box(driver)
+        print("test_register_fail_with_empty_box passed" if register_result else "test_register_fail_with_empty_box failed")
+        success = success and register_result
+        
+        register_result = test_register_Neg.test_register_fail_with_nonsame_password(driver)
+        print("test_register_fail_with_nonsame_password passed" if register_result else "test_register_fail_with_nonsame_password failed")
+        success = success and register_result
+        
+        register_result = test_register_Neg.test_register_fail_with_nonaccept_password(driver)
+        print("test_register_fail_with_nonaccept_password passed" if register_result else "test_register_fail_with_nonaccept_password failed")
+        success = success and register_result
+        
         register_success_result = test_register.test_register_success(driver)
         print("test_register_success passed" if register_success_result else "test_register_success failed")
         success = success and register_success_result
 
+        login_success_result = test_login.test_login_success(driver)
+        print("test_login_success passed" if login_success_result else "test_login_success failed")
+        success = success and login_success_result
+        
+        login_success_result = test_login_Neg.test_login_with_wrong_password(driver)
+        print("test_login_with_wrong_password passed" if login_success_result else "test_login_with_wrong_password failed")
+        success = success and login_success_result
+        
         login_success_result = test_login.test_login_success(driver)
         print("test_login_success passed" if login_success_result else "test_login_success failed")
         success = success and login_success_result
@@ -77,6 +98,10 @@ def run_test(driver):
         
         result  = test_ShortUrl.test_shortUrl(driver, "https://www.google.com/")
         print("test_ShoutUrl passed" if result else "test_ShortUrl failed")
+        success = success and result
+
+        result  = test_ShortUrl_Neg.test_shortUrl_Neg(driver)
+        print("test_ShoutUrl_Neg passed" if result else "test_ShortUrl_Neg failed")
         success = success and result
 
         result  = test_DuplicateAccount.test_register_Duplicate(driver)
