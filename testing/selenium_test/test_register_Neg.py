@@ -34,7 +34,7 @@ def test_register_fail_with_empty_box(driver):
             button_elemnt.click()
             time.sleep(0.5)
             error_message = error_elements[i].get_attribute("validationMessage")
-            assert error_message == "請填寫這個欄位。"
+            assert error_message == "請填寫這個欄位。" or error_message == "Please fill out this field."
         return True
     except AssertionError:
         return False
