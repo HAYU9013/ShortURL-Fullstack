@@ -4,7 +4,7 @@
 - BE: Express
 - DB: MongoDB
 - Container: Docker
-- Unit Test (future): Vitest
+
 
 ## for windows
 - install docker desktop (or docker if you know how to use)
@@ -16,3 +16,8 @@
 - code to modify is at
     - frontend/src
     - backend/src
+ 
+## Testing
+- `cd testing/selenium_test`
+- `pip install selenium`
+- `python main.py`
