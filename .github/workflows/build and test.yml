@@ -2,8 +2,7 @@ name: Docker Build and Test
 
 on:
   push: {}  # 每次 commit 都會觸發
-  schedule:
-    - cron: '0 */4 * * *'  # 每四小時觸發一次
+
 
 jobs:
   build:
