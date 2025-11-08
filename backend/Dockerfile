@@ -1,20 +1,25 @@
-# Use the official Node.js image as the base image
-FROM node:latest
+# Use the official lightweight Node.js image as the base image
+FROM node:20-alpine
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
+ENV NODE_ENV=production
+
+# Install dependencies
 COPY package*.json ./
+RUN npm install --omit=dev
 
-# Install the dependencies
-RUN npm install
+# Install runtime utilities required for health checks
+RUN apk add --no-cache curl
 
-# Copy the rest of the application code to the working directory
+# Copy application source
 COPY . .
+
+# Download the AWS RDS CA bundle for DocumentDB TLS connections
+ADD https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem /etc/ssl/certs/rds-combined-ca-bundle.pem
 
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Define the command to run the application
-CMD ["npm", "run", "dev"]
+# Start the production server
+CMD ["node", "src/index.js"]
