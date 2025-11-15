@@ -6,6 +6,9 @@
           <div class="form-group mb-4">
             <input type="url" v-model="longUrl" class="form-control" placeholder="請輸入長網址" required>
           </div>
+          <div v-if="isLoggedIn" class="form-group mb-4">
+            <textarea v-model="note" class="form-control" rows="3" placeholder="（選填）為此短網址新增備註"></textarea>
+          </div>
           <button type="submit" class="btn btn-custom">創建短網址</button>
         </form>
         <div v-if="shortUrl" class="result mt-4">
@@ -25,6 +28,7 @@
         longUrl: '',
         shortUrl: '',
         isLoggedIn: false,
+        note: '',
       };
     },
     methods: {
@@ -37,11 +41,17 @@
             const token = document.cookie.split('=')[1]; // 假設 token 存在 cookie 中
             headers['Authorization'] = `Bearer ${token}`;
           }
-          const response = await axios.post(`${BASE_URL}/api/url${endpoint}`, 
-            { long_url: this.longUrl },
+          const payload = { long_url: this.longUrl };
+          if (this.isLoggedIn && this.note) {
+            payload.note = this.note;
+          }
+          const response = await axios.post(`${BASE_URL}/api/url${endpoint}`,
+            payload,
             { headers: headers, withCredentials: true }
           );
           this.shortUrl = response.data.short_url;
+          this.longUrl = '';
+          this.note = '';
         } catch (error) {
           console.error('短網址創建錯誤:', error);
           alert('創建短網址時發生錯誤');
