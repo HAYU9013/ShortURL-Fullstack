@@ -1,13 +1,14 @@
-<template>
+﻿<template>
   <div class="wrapper">
     <div class="container">
-      <h2>我的短網址</h2>
+      <div class="table-section">
+      <h2>My Short URLs</h2>
       <div class="search-bar">
         <input
           v-model="searchTerm"
           type="text"
           class="form-control"
-          placeholder="搜尋長網址、短網址、備註或使用次數"
+          placeholder="Search long URL, short URL, note, visits"
         />
       </div>
       <table class="table table-bordered table-hover">
@@ -19,14 +20,14 @@
                 :checked="allVisibleSelected"
                 ref="selectAllCheckbox"
                 @change="toggleSelectAll($event.target.checked)"
-                aria-label="選取當前顯示的所有短網址"
+                aria-label="Select all visible short URLs"
               />
             </th>
-            <th>長網址</th>
-            <th>短網址</th>
-            <th>備註</th>
-            <th>使用次數</th>
-            <th>操作</th>
+            <th>Long URL</th>
+            <th>Short URL</th>
+            <th>Note</th>
+            <th>Visits</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -36,7 +37,7 @@
                 type="checkbox"
                 v-model="selectedIds"
                 :value="url.short_id"
-                aria-label="選取短網址"
+                  aria-label="Select short URL"
               />
             </td>
             <td>
@@ -46,40 +47,41 @@
               <a :href="url.short_url" target="_blank">{{ url.short_url }}</a>
             </td>
             <td class="note-column">
-              <textarea v-model="url.noteDraft" class="form-control note-input" rows="2" placeholder="新增或修改備註"></textarea>
+              <textarea v-model="url.noteDraft" class="form-control note-input" rows="2" placeholder="Click to edit note"></textarea>
             </td>
             <td class="text-nowrap">{{ url.visit_count }}</td>
             <td>
               <div class="d-flex flex-column gap-2 align-items-center">
-                <button class="btn btn-primary btn-sm" @click="updateNote(url)">更新備註</button>
-                <button class="btn btn-secondary btn-sm" @click="downloadQrCode(url)">下載 QR Code</button>
-                <button class="btn btn-danger btn-sm" @click="deleteUrl(url)"><p class="mb-10">刪除</p></button>
+                <button class="btn btn-primary btn-sm" @click="updateNote(url)">Update Note</button>
+                <button class="btn btn-secondary btn-sm" @click="downloadQrCode(url)">Download QR Code</button>
+                <button class="btn btn-danger btn-sm" @click="deleteUrl(url)"><p class="mb-10">Delete</p></button>
               </div>
             </td>
           </tr>
         </tbody>
-      </table>
-      <div class="chart-wrapper" v-if="hasSelected">
-        <h3>使用次數圓餅圖</h3>
-        <canvas ref="visitPie" aria-label="選取短網址的使用次數圓餅圖"></canvas>
+        </table>
       </div>
-      <p v-else class="chart-placeholder">勾選表格左側方框以查看使用次數統計。</p>
+      <div class="chart-wrapper" v-if="hasSelected">
+        <h3>Visits Chart</h3>
+        <VisitPieChart :items="chartItems" />
+      </div>
+      <p v-else class="chart-placeholder">Select rows on the left to view visit statistics.</p>
     </div>
   </div>
 </template>
 
 <script>
 import { nextTick } from 'vue';
-import Chart from 'chart.js/auto';
 import QRCode from 'qrcode';
+import VisitPieChart from './VisitPieChart.vue';
 
 export default {
+  components: { VisitPieChart },
   data() {
     return {
       urls: [],
       searchTerm: '',
-      selectedIds: [],
-      chartInstance: null
+      selectedIds: []
     };
   },
   created() {
@@ -103,6 +105,21 @@ export default {
     hasSelected() {
       return this.selectedUrls.length > 0;
     },
+    chartItems() {
+      const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let letterIndex = 0;
+      return this.selectedUrls.map((u) => {
+        const rawNote = (u.note != null ? String(u.note) : '').trim() ||
+                        (u.noteDraft != null ? String(u.noteDraft) : '').trim();
+        const label = rawNote && rawNote.length > 0
+          ? rawNote
+          : letters[letterIndex++ % letters.length];
+        return {
+          label,
+          value: typeof u.visit_count === 'number' ? u.visit_count : 0
+        };
+      });
+    },
     allVisibleSelected() {
       if (!this.filteredUrls.length) {
         return false;
@@ -113,7 +130,6 @@ export default {
   watch: {
     selectedUrls: {
       handler() {
-        this.refreshChart();
         this.updateHeaderCheckboxState();
       },
       deep: true
@@ -128,7 +144,6 @@ export default {
         ) {
           this.selectedIds = filteredIds;
         }
-        this.refreshChart();
         this.updateHeaderCheckboxState();
       },
       deep: true
@@ -138,11 +153,7 @@ export default {
     }
   },
   mounted() {
-    this.refreshChart();
     this.updateHeaderCheckboxState();
-  },
-  beforeUnmount() {
-    this.destroyChart();
   },
   methods: {
     async loadMyUrls() {
@@ -160,11 +171,11 @@ export default {
             noteDraft: url.note || ''
           }));
         } else {
-          alert('取得短網址列表失敗：' + (data.message || response.statusText));
+          alert('Failed to fetch URL list: ' + (data.message || response.statusText));
         }
       } catch (error) {
-        console.error('載入短網址列表錯誤:', error);
-        alert('取得短網址列表時發生錯誤');
+        console.error('頛?剔雯??”?航炊:', error);
+         alert('An error occurred while loading URL list');
       }
     },
     async updateNote(url) {
@@ -179,50 +190,50 @@ export default {
         if (response.ok) {
           url.note = data.note;
           url.noteDraft = data.note;
-          alert('備註已更新');
+          alert('Note updated');
         } else {
-          alert('更新備註失敗：' + (data.message || response.statusText));
+          alert('Update note failed: ' + (data.message || response.statusText));
         }
       } catch (error) {
-        console.error('更新備註錯誤:', error);
-        alert('更新備註時發生錯誤');
+        console.error('?湔?酉?航炊:', error);
+          alert('Note updated');
       }
     },
     async deleteUrl(url) {
-      if (!confirm('確定刪除此短網址？')) return;
+      if (!confirm('Are you sure you want to delete this short URL?')) return;
       try {
         const response = await fetch(`http://localhost:8000/api/url/d/${url.short_id}`, {
           method: 'DELETE',
           credentials: 'include'
         });
         if (response.ok) {
-          alert('刪除成功');
+          alert('Deleted successfully');
           this.loadMyUrls();
         } else {
           const data = await response.json();
-          alert('刪除失敗：' + (data.message || response.statusText));
+          alert('Delete failed: ' + (data.message || response.statusText));
         }
       } catch (error) {
-        console.error('刪除錯誤:', error);
-        alert('刪除短網址時發生錯誤');
+        console.error('?芷?航炊:', error);
+         alert('An error occurred while deleting');
       }
     },
     async downloadQrCode(url) {
       if (!url.short_url) {
-        alert('找不到短網址連結，無法生成 QR Code');
+        alert('Cannot generate QR Code: missing short URL');
         return;
       }
       try {
         const dataUrl = await QRCode.toDataURL(url.short_url, { width: 512, margin: 2 });
         const link = document.createElement('a');
         link.href = dataUrl;
-        link.download = `${url.short_id || 'short-url'}-qrcode.png`;
+        link.download = (url.short_id || 'short-url') + '-qrcode.png';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
       } catch (error) {
-        console.error('產生 QR Code 錯誤:', error);
-        alert('產生 QR Code 時發生錯誤');
+        console.error('QR Code generation error:', error);
+        alert('QR Code generation failed');
       }
     },
     toggleSelectAll(checked) {
@@ -234,83 +245,6 @@ export default {
         const filteredSet = new Set(this.filteredUrls.map((url) => url.short_id));
         this.selectedIds = this.selectedIds.filter((id) => !filteredSet.has(id));
       }
-    },
-    refreshChart() {
-      nextTick(() => {
-        if (!this.hasSelected) {
-          this.destroyChart();
-          return;
-        }
-
-        const canvas = this.$refs.visitPie;
-        if (!canvas) {
-          return;
-        }
-
-        const labels = this.selectedUrls.map((url) => url.short_url || url.short_id);
-        const data = this.selectedUrls.map((url) => url.visit_count || 0);
-        const colors = this.generateColors(labels.length);
-
-        if (this.chartInstance) {
-          this.chartInstance.data.labels = labels;
-          this.chartInstance.data.datasets[0].data = data;
-          this.chartInstance.data.datasets[0].backgroundColor = colors;
-          this.chartInstance.update();
-          return;
-        }
-
-        this.chartInstance = new Chart(canvas.getContext('2d'), {
-          type: 'pie',
-          data: {
-            labels,
-            datasets: [
-              {
-                data,
-                backgroundColor: colors,
-                borderColor: '#ffffff',
-                borderWidth: 2
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'bottom'
-              }
-            }
-          }
-        });
-      });
-    },
-    destroyChart() {
-      if (this.chartInstance) {
-        this.chartInstance.destroy();
-        this.chartInstance = null;
-      }
-    },
-    generateColors(count) {
-      const baseColors = [
-        '#6C7A89',
-        '#F5B041',
-        '#A569BD',
-        '#48C9B0',
-        '#E74C3C',
-        '#3498DB',
-        '#58D68D',
-        '#F4D03F'
-      ];
-
-      if (count <= baseColors.length) {
-        return baseColors.slice(0, count);
-      }
-
-      const colors = [];
-      for (let i = 0; i < count; i += 1) {
-        colors.push(baseColors[i % baseColors.length]);
-      }
-      return colors;
     },
     updateHeaderCheckboxState() {
       nextTick(() => {
@@ -325,41 +259,56 @@ export default {
 </script>
 
 <style scoped>
-  /* 整體 wrapper 置中背景 */
+  /* ?湧? wrapper 蝵桐葉? */
   .wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
-
-    padding: 20px;
+    align-items: flex-start;
+    padding: 24px;
+    min-height: 100vh;
+    box-sizing: border-box;
   }
   
-  /* 主要容器設定 */
+  /* 銝餉?摰孵閮剖? */
   .container {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* ???嚗?銵典銝 */
+    align-items: center;    /* 瘞游像蝵桐葉?批捆 */
+    justify-content: flex-start;
+    box-sizing: border-box;
+  }
+
+  /* ?獢??游?憿?銵冽 */
+  .table-section {
     background-color: #DCD7C9;
-    padding: 30px;
+    padding: 24px 24px 16px;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     text-align: center;
     max-width: 800px;
     width: 100%;
+    margin: 0 auto;
   }
 
   .search-bar {
     margin-bottom: 20px;
   }
 
-  /* 標題設定 */
+  /* 璅?閮剖? */
   h2 {
     color: #2C3930;
     margin-bottom: 20px;
     font-size: 2rem;
   }
   
-  /* 表格設定 */
+  /* 銵冽閮剖? */
   .table {
     background-color: #fff;
     border: none;
+    margin: 0 auto; /* 蝵桐葉銵冽 */
+    width: 100%;
+    table-layout: auto;
   }
   
   .table th,
@@ -381,13 +330,13 @@ export default {
     resize: vertical;
   }
 
-  /* 表頭色彩 */
+  /* 銵券?脣蔗 */
   .thead-dark {
     background-color: #3F4F44;
     color: #DCD7C9;
   }
   
-  /* 連結樣式 */
+  /* ???璅?? */
   a {
     color: #2C3930;
     text-decoration: none;
@@ -397,7 +346,7 @@ export default {
     text-decoration: underline;
   }
   
-  /* 刪除按鈕 */
+  /* ?芷?? */
   .btn-danger {
     background-color: #d88268;
     border: none;
@@ -435,12 +384,15 @@ export default {
   }
 
   .chart-wrapper {
-    margin-top: 30px;
+    margin-top: 24px;
     background: #fff;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     min-height: 320px;
+    width: 100%;
+    max-width: 800px;       /* ?”?澆?撖穿?蝵桐葉 */
+    box-sizing: border-box;
   }
 
   .chart-wrapper h3 {
@@ -460,3 +412,6 @@ export default {
   }
 </style>
   
+
+
+

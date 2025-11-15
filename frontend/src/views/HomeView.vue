@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { ref, onMounted } from 'vue';
 import ShortenUrl from '@/components/ShortenUrl.vue';
 import LogoutView from '@/views/LogoutView.vue';
@@ -14,10 +14,11 @@ onMounted(() => {
 
 <template>
   <main>
-    <h1>就只是個縮網址的網站</h1>
+    <h1>撠勗?臬葬蝬脣??雯蝡</h1>
     <GreetingName />
 
     <ShortenUrl />
     <UrlList v-if="username" />
+    
   </main>
 </template>

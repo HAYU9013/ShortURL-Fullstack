@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { RouterLink, RouterView } from 'vue-router'
 </script>
 
@@ -9,10 +9,10 @@ import { RouterLink, RouterView } from 'vue-router'
         <div class="container-fluid">
           <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav">
-                <RouterLink class="btn btn-outline-light me-2" to="/">首頁</RouterLink>
-                <RouterLink class="btn btn-outline-light me-2" to="/register">註冊</RouterLink>
-                <RouterLink class="btn btn-outline-light me-2" to="/login">登入</RouterLink>
-                <RouterLink class="btn btn-outline-light" to="/logout">登出</RouterLink>
+                <RouterLink class="btn btn-outline-light me-2" to="/">擐?</RouterLink>
+                <RouterLink class="btn btn-outline-light me-2" to="/register">閮餃?</RouterLink>
+                <RouterLink class="btn btn-outline-light me-2" to="/login">?餃</RouterLink>
+                <RouterLink class="btn btn-outline-light" to="/logout">?餃</RouterLink>
             </div>
           </div>
         </div>
@@ -22,7 +22,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <RouterView />
 </template>
 <style scoped>
-/* Header 固定於頂端，並以深色背景呈現 */
+
 header {
   position: fixed;
   top: 0;
@@ -33,14 +33,14 @@ header {
   padding: 1rem 0;
 }
 
-/* 整體 container 設定為置中 */
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Navbar 設計，置於左上角 */
+
 .navbar {
   width: 100%;
   display: flex;
@@ -49,18 +49,18 @@ header {
   padding-left: 1rem;
 }
 
-/* navbar-brand 與其它項目間留白 */
+
 .navbar-brand {
   margin-right: 2rem;
 }
 
-/* Navbar 項目間的間距 */
+
 .navbar-nav {
   display: flex;
   gap: 1rem;
 }
 
-/* 以按鈕樣式呈現，強調邊框與陰影效果 */
+
 .navbar-nav .btn {
   border: 2px solid #DCD7C9;
   border-radius: 4px;
@@ -76,7 +76,7 @@ header {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* 手機板時的展開按鈕調整 */
+
 .navbar-toggler {
   border: none;
 }
@@ -85,7 +85,7 @@ header {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(220,215,201, 0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
-/* 主內容區域置中，並留出 header 的高度 */
+
 main {
   margin-top: 80px;
   width: 100%;
@@ -94,3 +94,4 @@ main {
   align-items: center;
 }
 </style>
+
