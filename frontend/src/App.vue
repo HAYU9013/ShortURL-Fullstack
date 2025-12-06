@@ -9,10 +9,10 @@ import { RouterLink, RouterView } from 'vue-router'
         <div class="container-fluid">
           <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav">
-                <RouterLink class="btn btn-outline-light me-2" to="/">擐?</RouterLink>
-                <RouterLink class="btn btn-outline-light me-2" to="/register">閮餃?</RouterLink>
-                <RouterLink class="btn btn-outline-light me-2" to="/login">?餃</RouterLink>
-                <RouterLink class="btn btn-outline-light" to="/logout">?餃</RouterLink>
+                <RouterLink class="btn btn-outline-light me-2" to="/">Home</RouterLink>
+                <RouterLink class="btn btn-outline-light me-2" to="/register">Register</RouterLink>
+                <RouterLink class="btn btn-outline-light me-2" to="/login">Login</RouterLink>
+                <RouterLink class="btn btn-outline-light" to="/logout">Logout</RouterLink>
             </div>
           </div>
         </div>

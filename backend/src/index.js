@@ -6,13 +6,13 @@ const showLinkApi = require('./middleware/showLinkApi'); // Corrected import
 const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 connectDB();
 
 const corsOptions = {
-  origin: 'http://localhost:5173', // 請求來源
-  credentials: true, // 必須設為 true
+  origin: process.env.CORS_ORIGIN || 'http://localhost:5173', // Allowed origin
+  credentials: true, // Required for cookies/credentials
 };
 app.use(cors(corsOptions));
 

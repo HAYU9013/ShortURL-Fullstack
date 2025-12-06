@@ -1,7 +1,7 @@
 ﻿<template>
     <div class="wrapper">
 
-          <h2>甇∟???, {{ username }}!</h2>
+          <h2>Welcome, {{ username }}!</h2>
 
 
     </div>
@@ -33,7 +33,7 @@
     align-items: center;    
     /* round the corners */
     border-radius: 10px;
-    /* ???撓撅方??航?鈭箸?閬箸澈擐?*/
+    /* background and spacing */
 
     padding: 20px;
   }

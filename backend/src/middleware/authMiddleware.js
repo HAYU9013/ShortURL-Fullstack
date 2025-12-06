@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
 
 const authMiddleware = (req, res, next) => {
     console.log(req.headers.cookie);
@@ -6,7 +7,7 @@ const authMiddleware = (req, res, next) => {
     if (!token) {
         return res.send('not login yet');
     }
-    jwt.verify(token, '999', (err, decoded) => {
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
         if (err) {
             console.log(err)
             return res.send('Bad hacker');

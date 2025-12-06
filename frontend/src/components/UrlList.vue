@@ -71,6 +71,7 @@
 </template>
 
 <script>
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 import { nextTick } from 'vue';
 import QRCode from 'qrcode';
 import VisitPieChart from './VisitPieChart.vue';
@@ -158,7 +159,7 @@ export default {
   methods: {
     async loadMyUrls() {
       try {
-        const response = await fetch('http://localhost:8000/api/url/my-urls', {
+        const response = await fetch(`${BASE_URL}/api/url/my-urls`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include'
@@ -174,13 +175,13 @@ export default {
           alert('Failed to fetch URL list: ' + (data.message || response.statusText));
         }
       } catch (error) {
-        console.error('頛?剔雯??”?航炊:', error);
-         alert('An error occurred while loading URL list');
+        console.error('Error loading URL list:', error);
+        alert('An error occurred while loading URL list');
       }
     },
     async updateNote(url) {
       try {
-        const response = await fetch(`http://localhost:8000/api/url/note/${url.short_id}`, {
+        const response = await fetch(`${BASE_URL}/api/url/note/${url.short_id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -195,14 +196,14 @@ export default {
           alert('Update note failed: ' + (data.message || response.statusText));
         }
       } catch (error) {
-        console.error('?湔?酉?航炊:', error);
-          alert('Note updated');
+        console.error('Error updating note:', error);
+        alert('Note update failed');
       }
     },
     async deleteUrl(url) {
       if (!confirm('Are you sure you want to delete this short URL?')) return;
       try {
-        const response = await fetch(`http://localhost:8000/api/url/d/${url.short_id}`, {
+        const response = await fetch(`${BASE_URL}/api/url/d/${url.short_id}`, {
           method: 'DELETE',
           credentials: 'include'
         });
@@ -214,8 +215,8 @@ export default {
           alert('Delete failed: ' + (data.message || response.statusText));
         }
       } catch (error) {
-        console.error('?芷?航炊:', error);
-         alert('An error occurred while deleting');
+        console.error('Error deleting short URL:', error);
+        alert('An error occurred while deleting');
       }
     },
     async downloadQrCode(url) {
@@ -259,7 +260,7 @@ export default {
 </script>
 
 <style scoped>
-  /* ?湧? wrapper 蝵桐葉? */
+  /* Wrapper layout */
   .wrapper {
     display: flex;
     justify-content: center;
@@ -269,17 +270,17 @@ export default {
     box-sizing: border-box;
   }
   
-  /* 銝餉?摰孵閮剖? */
+  /* Container layout */
   .container {
     width: 100%;
     display: flex;
-    flex-direction: column; /* ???嚗?銵典銝 */
-    align-items: center;    /* 瘞游像蝵桐葉?批捆 */
+    flex-direction: column; /* vertical flow */
+    align-items: center;    /* center content */
     justify-content: flex-start;
     box-sizing: border-box;
   }
 
-  /* ?獢??游?憿?銵冽 */
+  /* Table wrapper card */
   .table-section {
     background-color: #DCD7C9;
     padding: 24px 24px 16px;
@@ -295,18 +296,18 @@ export default {
     margin-bottom: 20px;
   }
 
-  /* 璅?閮剖? */
+  /* Heading */
   h2 {
     color: #2C3930;
     margin-bottom: 20px;
     font-size: 2rem;
   }
   
-  /* 銵冽閮剖? */
+  /* Table */
   .table {
     background-color: #fff;
     border: none;
-    margin: 0 auto; /* 蝵桐葉銵冽 */
+    margin: 0 auto; /* center table */
     width: 100%;
     table-layout: auto;
   }
@@ -330,13 +331,13 @@ export default {
     resize: vertical;
   }
 
-  /* 銵券?脣蔗 */
+  /* Table header */
   .thead-dark {
     background-color: #3F4F44;
     color: #DCD7C9;
   }
   
-  /* ???璅?? */
+  /* Links */
   a {
     color: #2C3930;
     text-decoration: none;
@@ -346,7 +347,7 @@ export default {
     text-decoration: underline;
   }
   
-  /* ?芷?? */
+  /* Delete button */
   .btn-danger {
     background-color: #d88268;
     border: none;
@@ -391,7 +392,7 @@ export default {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     min-height: 320px;
     width: 100%;
-    max-width: 800px;       /* ?”?澆?撖穿?蝵桐葉 */
+    max-width: 800px;       /* cap width and center */
     box-sizing: border-box;
   }
 

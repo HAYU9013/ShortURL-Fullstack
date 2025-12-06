@@ -14,7 +14,7 @@ onMounted(() => {
 
 <template>
   <main>
-    <h1>撠勗?臬葬蝬脣??雯蝡</h1>
+    <h1>URL Shortener</h1>
     <GreetingName />
 
     <ShortenUrl />

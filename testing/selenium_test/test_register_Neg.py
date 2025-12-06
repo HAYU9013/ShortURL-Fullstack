@@ -16,9 +16,9 @@ def test_register_fail_with_empty_box(driver):
         ## 進入註冊
 
         for i in range(0,3):
-            a_element = driver.find_element(By.LINK_TEXT, "首頁")
+            a_element = driver.find_element(By.LINK_TEXT, "Home")
             a_element.click()
-            a_element = driver.find_element(By.LINK_TEXT, "註冊")
+            a_element = driver.find_element(By.LINK_TEXT, "Register")
             a_element.click()
             input_username_element = driver.find_element(By.ID, "username")
             input_password_element = driver.find_element(By.ID, "password")
@@ -34,13 +34,13 @@ def test_register_fail_with_empty_box(driver):
             button_elemnt.click()
             time.sleep(0.5)
             error_message = error_elements[i].get_attribute("validationMessage")
-            assert error_message == "請填寫這個欄位。" or error_message == "Please fill out this field."
+            assert error_message == "Please fill out this field."
         return True
     except AssertionError:
         return False
 def test_register_fail_with_nonsame_password(driver):
     try:
-        a_element = driver.find_element(By.LINK_TEXT, "註冊")
+        a_element = driver.find_element(By.LINK_TEXT, "Register")
         a_element.click()
         random_id = random.randint(1, 1000000)
         username = f"satori{random_id}"
@@ -58,9 +58,9 @@ def test_register_fail_with_nonsame_password(driver):
         input_confirmPw_element.send_keys(confirm_password)
         button_elemnt.click()
         time.sleep(0.5)
-        error_message_element = driver.find_element(By.XPATH, "//div[contains(text(), '兩次輸入的密碼不一致')]")
+        error_message_element = driver.find_element(By.XPATH, "//div[contains(text(), 'Passwords do not match')]")
         error_message = error_message_element.text
-        assert error_message == "兩次輸入的密碼不一致"
+        assert error_message == "Passwords do not match"
         return True
     except AssertionError:
         return False
@@ -72,9 +72,9 @@ def test_register_fail_with_nonaccept_password(driver):
         ## 進入註冊
 
         for password in passwords:
-            a_element = driver.find_element(By.LINK_TEXT, "首頁")
+            a_element = driver.find_element(By.LINK_TEXT, "Home")
             a_element.click()
-            a_element = driver.find_element(By.LINK_TEXT, "註冊")
+            a_element = driver.find_element(By.LINK_TEXT, "Register")
             a_element.click()
             input_username_element = driver.find_element(By.ID, "username")
             input_password_element = driver.find_element(By.ID, "password")
@@ -89,9 +89,9 @@ def test_register_fail_with_nonaccept_password(driver):
             input_confirmPw_element.send_keys(password)
             button_elemnt.click()
             time.sleep(0.5)
-            error_message_element = driver.find_element(By.XPATH, "//div[contains(text(), '密碼必須超過6個字符，且包含字母和數字')]")
+            error_message_element = driver.find_element(By.XPATH, "//div[contains(text(), 'Password must be > 6 chars and include letters and numbers')]")
             error_message = error_message_element.text
-            assert error_message == "密碼必須超過6個字符，且包含字母和數字"
+            assert error_message == "Password must be > 6 chars and include letters and numbers"
         return True
     except AssertionError:
         return False

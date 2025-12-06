@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 def test_shortUrl(driver,testWebsite): 
 
     try:
-        a_element = driver.find_element(By.LINK_TEXT,"首頁")
+        a_element = driver.find_element(By.LINK_TEXT,"Home")
         a_element.click()
         inputField = driver.find_element(By.XPATH, "//input[@class='form-control']")
         inputField.send_keys(testWebsite)

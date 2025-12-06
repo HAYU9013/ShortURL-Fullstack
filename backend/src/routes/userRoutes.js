@@ -1,6 +1,8 @@
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
 const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '6000s';
 const router = express.Router();
 const User = require('../models/userModels');
 
@@ -27,7 +29,7 @@ router.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({ username, password });
         if (user) {
-            const token = jwt.sign({ username: user.username }, '999', { expiresIn: '6000s' });
+            const token = jwt.sign({ username: user.username }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
             res.cookie('token', token, { httpOnly: false, secure: true, sameSite: 'None' });
 
             res.json({ token, username: user.username });
