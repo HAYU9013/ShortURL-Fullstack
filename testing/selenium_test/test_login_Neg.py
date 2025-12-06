@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 def test_login_with_wrong_password(driver):
     try:
         ## 進入註冊
-        a_element = driver.find_element(By.LINK_TEXT, "註冊")
+        a_element = driver.find_element(By.LINK_TEXT, "Register")
         a_element.click()
 
         input_username_element = driver.find_element(By.ID, "username")
@@ -26,7 +26,7 @@ def test_login_with_wrong_password(driver):
         alert = wait.until(lambda d : d.switch_to.alert)
         alert.accept()
         ## 進入登入
-        a_element = driver.find_element(By.LINK_TEXT, "登入")
+        a_element = driver.find_element(By.LINK_TEXT, "Login")
         a_element.click()
 
         input_username_element = driver.find_element(By.XPATH, '/html/body/div[1]/div/div/form/div[1]/input')
@@ -40,9 +40,9 @@ def test_login_with_wrong_password(driver):
         time.sleep(2)
         wait = WebDriverWait(driver, timeout=2)
         
-        error_message_element = driver.find_element(By.XPATH, "//div[contains(text(), '登入時發生錯誤')]")
+        error_message_element = driver.find_element(By.XPATH, "//div[contains(text(), 'An error occurred while signing in')]")
         error_message = error_message_element.text
-        assert error_message == "登入時發生錯誤"
+        assert error_message == "An error occurred while signing in"
         return True
     
     except AssertionError:

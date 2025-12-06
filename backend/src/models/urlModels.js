@@ -6,6 +6,8 @@ const urlSchema = new Schema({
     username: { type: String, default: 'Anonymous' },
     long_url: { type: String, required: true },
     short_id: { type: String, required: true },
+    note: { type: String, default: '' },
+    visit_count: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now },
 });
 

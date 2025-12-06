@@ -7,7 +7,7 @@ def test_shortUrl_Neg(driver):
     try:
         longstr = "_"*1000
         testWebsite = ["00","","[]","{}",longstr,"https://\\<script>alert('test')</script>","/ or 1=1","<script>alert('test')</script>","<img src=x onerror=alert('test')>"]
-        a_element = driver.find_element(By.LINK_TEXT,"首頁")
+        a_element = driver.find_element(By.LINK_TEXT,"Home")
         a_element.click()
         for website in testWebsite:
             inputField = driver.find_element(By.XPATH, "//input[@class='form-control']")
@@ -15,7 +15,7 @@ def test_shortUrl_Neg(driver):
             time.sleep(2)
             wait = WebDriverWait(driver, timeout=2)
             error_message = inputField.get_attribute("validationMessage")
-            assert error_message == "請輸入網址。" or error_message == "請填寫這個欄位。" or error_message == "Please enter a URL." or error_message == "Please fill out this field."
+            assert error_message == "Please enter a URL." or error_message == "Please fill out this field."
             inputField.clear()
             
         

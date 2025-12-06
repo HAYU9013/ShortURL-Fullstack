@@ -1,4 +1,4 @@
-各種指令
+Commands
 
 docker-compose up -d
 npm run dev

@@ -29,9 +29,9 @@ def test_register_Duplicate(driver):
         
         accountList = (username,password)
         for i in range(0,2):
-            a_element = driver.find_element(By.LINK_TEXT, "註冊")
+            a_element = driver.find_element(By.LINK_TEXT, "Register")
             
-            assert a_element.text == "註冊"
+            assert a_element.text == "Register"
             a_element.click()
             
             R_result = RegisterAccount(driver, username, password)
@@ -43,7 +43,7 @@ def test_register_Duplicate(driver):
             if i == 0:
                 WebDriverWait(driver, 10).until(EC.alert_is_present())
                 alert = driver.switch_to.alert
-                assert alert.text =='註冊成功，請登入'
+                assert alert.text =='Sign up successful, please sign in'
                 alert.accept()
                 time.sleep(2)
             
@@ -51,7 +51,7 @@ def test_register_Duplicate(driver):
         danger = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "alert-danger")))
         
 
-        assert danger.text == "註冊時發生錯誤"   
+        assert danger.text == "An error occurred during sign up"   
         return True
 
     except AssertionError:

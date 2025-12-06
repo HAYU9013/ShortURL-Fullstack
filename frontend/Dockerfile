@@ -1,20 +1,20 @@
-# 選用 Node 輕量版映像檔 (根據你的 Node 版本需求調整)
+# Use a lightweight Node image (adjust version as needed)
 FROM node:18-alpine
 
-# 設定工作目錄
+# Set working directory
 WORKDIR /app
 
-# 複製專案所有檔案
+# Copy project files
 COPY . .
 
-# 安裝相依套件
+# Install dependencies
 RUN npm install
 
-# 安裝 crypto 模塊
+# Install crypto module
 RUN npm install crypto
 
-# 如有需要，暴露開發伺服器的 port (預設 vite dev 可能是 3000 或 5173，請依照實際情況調整)
+# Expose dev server port if needed (often 3000 or 5173)
 EXPOSE 5173
 
-# 啟動開發模式
+# Start development mode
 CMD ["npm", "run", "dev"]

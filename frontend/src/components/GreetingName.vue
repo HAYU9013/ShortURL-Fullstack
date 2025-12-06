@@ -1,7 +1,7 @@
-<template>
+﻿<template>
     <div class="wrapper">
 
-          <h2>歡迎回來, {{ username }}!</h2>
+          <h2>Welcome, {{ username }}!</h2>
 
 
     </div>
@@ -33,7 +33,7 @@
     align-items: center;    
     /* round the corners */
     border-radius: 10px;
-    /* 柔和的漸層背景讓人感覺溫馨 */
+    /* background and spacing */
 
     padding: 20px;
   }
