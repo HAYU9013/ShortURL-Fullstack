@@ -5,6 +5,14 @@ npm-shrinkwrap.json
 *.log
 *.gz
 
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+*.tfplan
+
+
 # Coveralls
 .nyc_output
 coverage

@@ -1,0 +1,13 @@
+project_name              = "ShortURL"
+environment               = "prod"
+aws_region                = "ap-northeast-1"
+route53_zone_id           = "Z1234567890ABC"
+alb_subdomain             = "api.example.com"
+frontend_subdomain        = "app.example.com"
+alb_certificate_arn       = "arn:aws:acm:ap-northeast-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+cloudfront_certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy"
+allowed_origins           = ["https://app.example.com"]
+container_image_tag       = "latest"
+min_capacity              = 2
+max_capacity              = 6
+frontend_price_class      = "PriceClass_All"
