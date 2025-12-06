@@ -1,24 +1,23 @@
 ﻿<script setup>
-import { ref, onMounted } from 'vue';
-import ShortenUrl from '@/components/ShortenUrl.vue';
-import LogoutView from '@/views/LogoutView.vue';
-import GreetingName from '@/components/GreetingName.vue';
-import UrlList from '@/components/UrlList.vue';
+import { ref, onMounted } from "vue";
+import ShortenUrl from "@/components/ShortenUrl.vue";
+import LogoutView from "@/views/LogoutView.vue";
+import GreetingName from "@/components/GreetingName.vue";
+import UrlList from "@/components/UrlList.vue";
 
-const username = ref('');
+const username = ref("");
 
 onMounted(() => {
-  username.value = localStorage.getItem('username');
+  username.value = localStorage.getItem("username");
 });
 </script>
 
 <template>
-  <main>
-    <h1>URL Shortener</h1>
+  <div class="flex flex-col items-center w-full">
+    <h1 class="text-4xl font-bold mb-8 text-[#2C3639]">URL Shortener</h1>
     <GreetingName />
 
     <ShortenUrl />
     <UrlList v-if="username" />
-    
-  </main>
+  </div>
 </template>

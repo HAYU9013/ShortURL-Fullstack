@@ -1,24 +1,24 @@
 <template>
-  <div class="chart-container">
-    <canvas ref="canvas"></canvas>
+  <div class="w-full h-[260px]">
+    <canvas ref="canvas" class="w-full h-full block"></canvas>
   </div>
 </template>
 
 <script>
-import { nextTick } from 'vue';
-import Chart from 'chart.js/auto';
+import { nextTick } from "vue";
+import Chart from "chart.js/auto";
 
 export default {
-  name: 'VisitPieChart',
+  name: "VisitPieChart",
   props: {
     items: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
-      chart: null
+      chart: null,
     };
   },
   watch: {
@@ -26,8 +26,8 @@ export default {
       handler() {
         this.build();
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   mounted() {
     this.build();
@@ -49,25 +49,25 @@ export default {
         const colors = this.colors(data.length);
 
         this.teardown();
-        this.chart = new Chart(el.getContext('2d'), {
-          type: 'pie',
+        this.chart = new Chart(el.getContext("2d"), {
+          type: "pie",
           data: {
             labels,
             datasets: [
               {
                 data,
                 backgroundColor: colors,
-                borderWidth: 0
-              }
-            ]
+                borderWidth: 0,
+              },
+            ],
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: { position: 'bottom' }
-            }
-          }
+              legend: { position: "bottom" },
+            },
+          },
         });
       });
     },
@@ -78,23 +78,18 @@ export default {
       }
     },
     colors(n) {
-      const base = ['#6C7A89','#F5B041','#A569BD','#48C9B0','#E74C3C','#3498DB','#58D68D','#F4D03F'];
+      const base = [
+        "#6C7A89",
+        "#F5B041",
+        "#A569BD",
+        "#48C9B0",
+        "#E74C3C",
+        "#3498DB",
+        "#58D68D",
+        "#F4D03F",
+      ];
       return Array.from({ length: n }, (_, i) => base[i % base.length]);
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style scoped>
-.chart-container {
-  width: 100%;
-  height: 260px; /* match layout expectations */
-}
-
-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-</style>
-
